@@ -25,25 +25,23 @@ describe('contact form', () => {
         })
         cy.get('[data-cy="contact-btn-submit"]').contains('Send Message')
 
-        cy.get('[data-cy="contact-input-message"]').focus().blur();
-        cy.get('[data-cy="contact-input-message"]')
+        cy.get('[data-cy="contact-input-message"]').as('msgInput')
+        cy.get('@msgInput').focus().blur();
+        cy.get('@msgInput')
             .parent()
-            .then(el => {
-                expect(el.attr('class')).to.contains('invalid');
-            })
+            .should('have.attr', 'class').and('match', /invalid/)
 
         cy.get('[data-cy="contact-input-name"]').focus().blur();
         cy.get('[data-cy="contact-input-name"]')
             .parent()
-            .then(el => {
-                expect(el.attr('class')).to.contains('invalid');
-            })
+            .should('have.attr', 'class').and('match', /invalid/)
 
         cy.get('[data-cy="contact-input-email"]').focus().blur();
         cy.get('[data-cy="contact-input-email"]')
             .parent()
-            .then(el => {
-                expect(el.attr('class')).to.contains('invalid');
+            .should((el) => {
+                expect(el.attr('class')).not.to.be.undefined
+                expect(el.attr('class')).contains('invalid')
             })
     })
 });
